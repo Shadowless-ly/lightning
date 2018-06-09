@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module tasktracker</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>tasktracker</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:v%3A%5Cauto%5Ctmp%5Ctasktracker.py">v:\auto\tmp\tasktracker.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;coding=utf-8</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="atexit.html">atexit</a><br>
+<a href="json.html">json</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="platform.html">platform</a><br>
+<a href="re.html">re</a><br>
+<a href="signal.html">signal</a><br>
+</td><td width="25%" valign=top><a href="subprocess.html">subprocess</a><br>
+<a href="sys.html">sys</a><br>
+<a href="threading.html">threading</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="tasktracker.html#Daemon">Daemon</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="tasktracker.html#lightningd">lightningd</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="tasktracker.html#Reporter">Reporter</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Daemon">class <strong>Daemon</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>实现了守护进程的创建,关闭和重启<br>
+&nbsp;<br>
+该类用于创建一个linux系统下的守护进程<br>
+定义任务执行可以通过重写子类的`_run()`方法<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Daemon-__init__"><strong>__init__</strong></a>(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null')</dt><dd><tt>初始化用来记录进程pid的文件位置和标准输入,输出,错误流<br>
+&nbsp;<br>
+:type&nbsp;strpidfile:&nbsp;用来记录守护进程pid的文件<br>
+stdin,stdout,stderr:&nbsp;文件描述符重定向,使用/dev/stdin,/dev/stdout,/dev/stderr可以输出到终端</tt></dd></dl>
+
+<dl><dt><a name="Daemon-delpid"><strong>delpid</strong></a>(self)</dt><dd><tt>删除pidfile</tt></dd></dl>
+
+<dl><dt><a name="Daemon-restart"><strong>restart</strong></a>(self)</dt><dd><tt>重启守护进程</tt></dd></dl>
+
+<dl><dt><a name="Daemon-start"><strong>start</strong></a>(self)</dt><dd><tt>启动守护进程<br>
+&nbsp;<br>
+根据pidfile判断进程是否存在,不存在则创建,若存在则报出pid并退出</tt></dd></dl>
+
+<dl><dt><a name="Daemon-stop"><strong>stop</strong></a>(self)</dt><dd><tt>关闭守护进程</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Reporter">class <strong>Reporter</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>该类实现了和lightning&nbsp;Web&nbsp;Server交互的Reporter<br>
+&nbsp;<br>
+该类可以创建一个reporter,使用`<a href="#Reporter-curl_post">curl_post</a>()`以及`<a href="#Reporter-urllib_post">urllib_post</a>()`向lightning&nbsp;web&nbsp;server发送POST请求<br>
+`<a href="#Reporter-get_task">get_task</a>()`方法从服务器端获取当前任务信息,`<a href="#Reporter-report">report</a>()`方法用于向服务端报告任务状态与日志信息<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Reporter-__init__"><strong>__init__</strong></a>(self, temp=None, blackhole=['00:0C:29:CB:12:DB'], if_sysnet=False, exclude=["'lo'", "'bond.*?'", "'vir.*?'"], platform='Windows', taskurl='http://192.168.1.1/auto/task')</dt><dd><tt>可以通过赋值以下参数来自定义Reporter配置<br>
+&nbsp;<br>
+temp:list类型,用于测试的临时列表<br>
+if_sysnet:布尔类型,True表示使用sysnet来获取网卡名<br>
+exclude:list类型,需要过滤掉的接口名,使用正则表达式或具体接口名,使用格式"'example'"加入列表<br>
+platform:str类型,系统平台<br>
+taskurl:str类型,用于获取Task的url地址</tt></dd></dl>
+
+<dl><dt><a name="Reporter-curl_get"><strong>curl_get</strong></a>(self, url, data=None)</dt><dd><tt>发送GET请求到指定url</tt></dd></dl>
+
+<dl><dt><a name="Reporter-curl_post"><strong>curl_post</strong></a>(self, json_data, url)</dt><dd><tt>利用curl工具发送HTTP&nbsp;POST请求,封装`curl&nbsp;-sSL&nbsp;-H&nbsp;"Content-type:application/json"&nbsp;-X&nbsp;POST&nbsp;-d&nbsp;JSON_DATA&nbsp;URL`<br>
+&nbsp;<br>
+json_data:&nbsp;str类型,需要携带的数据<br>
+url:&nbsp;str类型,请求的目标url</tt></dd></dl>
+
+<dl><dt><a name="Reporter-get_task"><strong>get_task</strong></a>(self)</dt><dd><tt>用于获取任务，构造Json&nbsp;POST到lightning服务端,返回值为Json格式的任务</tt></dd></dl>
+
+<dl><dt><a name="Reporter-post_with_maclist"><strong>post_with_maclist</strong></a>(self, url, mission_type=None, data={})</dt><dd><tt>发送POST请求至目标url<br>
+&nbsp;<br>
+mission_type:&nbsp;str类型,&nbsp;{OS,&nbsp;CV&nbsp;Stress,&nbsp;Other,&nbsp;Error}<br>
+data:&nbsp;dict类型,&nbsp;{mac_list:&nbsp;[''],&nbsp;msg:&nbsp;''}</tt></dd></dl>
+
+<dl><dt><a name="Reporter-report"><strong>report</strong></a>(self, data)</dt><dd><tt>报告任务状态,提交测试结果数据</tt></dd></dl>
+
+<dl><dt><a name="Reporter-urllib_post"><strong>urllib_post</strong></a>(self, data, url)</dt><dd><tt>使用标准库urllib发送HTTP&nbsp;POST请求<br>
+&nbsp;<br>
+data:&nbsp;str类型,需要携带的数据<br>
+url:&nbsp;str类型,请求的目标url</tt></dd></dl>
+
+<hr>
+Class methods defined here:<br>
+<dl><dt><a name="Reporter-shell_run"><strong>shell_run</strong></a>(cmd)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>运行shell命令<br>
+&nbsp;<br>
+执行linux&nbsp;shell命令,返回结果与错误信息<br>
+传入str类型的cmd命令,返回执行结果元组(result,&nbsp;error&nbsp;message)</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="lightningd">class <strong>lightningd</strong></a>(<a href="tasktracker.html#Daemon">Daemon</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>lightning&nbsp;tasktracker守护进程<br>
+&nbsp;<br>
+`<a href="#lightningd-running_log">running_log</a>()`方法用于记录日志,`<a href="#lightningd-task_parser">task_parser</a>()用于解析服务器Response的Json`<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="tasktracker.html#lightningd">lightningd</a></dd>
+<dd><a href="tasktracker.html#Daemon">Daemon</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="lightningd-__init__"><strong>__init__</strong></a>(self, logfile='/lightning.log', **kw)</dt><dd><tt>初始化用来记录进程pid的文件位置和标准输入,输出,错误流<br>
+&nbsp;<br>
+:type&nbsp;strpidfile:&nbsp;用来记录守护进程pid的文件<br>
+stdin,stdout,stderr:&nbsp;文件描述符重定向,使用/dev/stdin,/dev/stdout,/dev/stderr可以输出到终端</tt></dd></dl>
+
+<dl><dt><a name="lightningd-running_log"><strong>running_log</strong></a>(self, message)</dt><dd><tt>记录日志,使用追加模式记录带有时间戳的日志<br>
+&nbsp;<br>
+默认日志位置为/lightning.log<br>
+message:&nbsp;str类型,写入日志文件的字符串</tt></dd></dl>
+
+<dl><dt><a name="lightningd-task_parser"><strong>task_parser</strong></a>(self, task_json)</dt><dd><tt>解析服务器Response的Json<br>
+&nbsp;<br>
+task_json:&nbsp;str类型,由服务端返回的Json类型<br>
+:returns:&nbsp;&lt;function&nbsp;run_task&gt;&nbsp;返回的run_task方法用于处理指定类型的任务,任务类型由参数task_json的'type'字段作为键从task_dict中取值</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="tasktracker.html#Daemon">Daemon</a>:<br>
+<dl><dt><a name="lightningd-delpid"><strong>delpid</strong></a>(self)</dt><dd><tt>删除pidfile</tt></dd></dl>
+
+<dl><dt><a name="lightningd-restart"><strong>restart</strong></a>(self)</dt><dd><tt>重启守护进程</tt></dd></dl>
+
+<dl><dt><a name="lightningd-start"><strong>start</strong></a>(self)</dt><dd><tt>启动守护进程<br>
+&nbsp;<br>
+根据pidfile判断进程是否存在,不存在则创建,若存在则报出pid并退出</tt></dd></dl>
+
+<dl><dt><a name="lightningd-stop"><strong>stop</strong></a>(self)</dt><dd><tt>关闭守护进程</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="tasktracker.html#Daemon">Daemon</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>BLACKHOLE</strong> = ['00:0C:29:CB:12:DB']<br>
+<strong>CONDAURL</strong> = 'http://192.168.1.1/auto/config/conda'<br>
+<strong>EXCLUDE</strong> = ["'lo'", "'bond.*?'", "'vir.*?'"]<br>
+<strong>IF_SYSNET</strong> = False<br>
+<strong>INTERVAL</strong> = 5<br>
+<strong>OS_INSTALL_REPORT</strong> = 'http://192.168.1.1/auto/os_install_report'<br>
+<strong>PLATFORM</strong> = 'Windows'<br>
+<strong>TASKURL</strong> = 'http://192.168.1.1/auto/task'<br>
+<strong>TEMP</strong> = ['00:A0:C9:00:00:03']</td></tr></table>
+</body></html>

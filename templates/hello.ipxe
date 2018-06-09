@@ -1,0 +1,7 @@
+#!ipxe
+{% if mac %}
+    echo your mac address is {{ mac }}
+    echo {{ time }}
+{% else %}
+echo hello
+{% endif %}
